@@ -12,9 +12,9 @@ Certain CFG questions, notably membership and emptiness, are decidable; **CFG eq
 
 ## 4.2 The halting problem
 
-Let \`HALT = {<M,w> : M halts on w}\`. If an algorithm \`H\` decided HALT for all encoded programs and inputs, construct \`D(x)\`: when \`H(x,x)\` says halt, loop forever; otherwise halt. Asking \`D(D)\` produces a contradiction. Therefore no total, correct \`H\` exists.
+Let `HALT = {<M,w> : M halts on w}`. If an algorithm `H` decided HALT for all encoded programs and inputs, construct `D(x)`: when `H(x,x)` says halt, loop forever; otherwise halt. Asking `D(D)` produces a contradiction. Therefore no total, correct `H` exists.
 
-The classic universal acceptance language \`A_TM\` is recognizable but not decidable. Its complement is not Turing-recognizable. Proof technique: a language is decidable iff both it and its complement are recognizable; dovetail the two recognizers and return whichever accepts first.
+The classic universal acceptance language `A_TM` is recognizable but not decidable. Its complement is not Turing-recognizable. Proof technique: a language is decidable iff both it and its complement are recognizable; dovetail the two recognizers and return whichever accepts first.
 
 ## 4.3 Diagonalization and uncountability
 
@@ -22,7 +22,7 @@ Programs are encodable as finite strings and thus countable; infinite binary seq
 
 ## Why the code is finite
 
-The product-automaton decider works because the search space has at most \`|QA|·|QB|\` state pairs. For HALT no analogous finite bound covers arbitrary programs. Setting a million-step cutoff merely creates a bounded question and cannot distinguish a very slow halting program from a diverging one.
+The product-automaton decider works because the search space has at most `|QA|·|QB|` state pairs. For HALT no analogous finite bound covers arbitrary programs. Setting a million-step cutoff merely creates a bounded question and cannot distinguish a very slow halting program from a diverging one.
 
 ## Checkpoints
 

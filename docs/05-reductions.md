@@ -4,17 +4,17 @@
 
 ## 5.1 The logic of a reduction
 
-A many-one / mapping reduction \`A ≤m B\` is a **total computable function** \`f\` satisfying \`x∈A iff f(x)∈B\`. If B were decidable then A would be decidable by computing \`f\` and calling B's decider. Therefore **if A is undecidable and A ≤m B, then B is undecidable**. Beware reversing this arrow.
+A many-one / mapping reduction `A ≤m B` is a **total computable function** `f` satisfying `x∈A iff f(x)∈B`. If B were decidable then A would be decidable by computing `f` and calling B's decider. Therefore **if A is undecidable and A ≤m B, then B is undecidable**. Beware reversing this arrow.
 
 The chapter's classic undecidability demonstrations include TM language questions and reductions via **computation histories**, sequences of configurations whose local consistency is checkable. Post's Correspondence Problem (PCP) converts the existence of a valid computation into a tile-matching instance; knowing what a configuration looks like matters more than memorizing the tiles.
 
 ## 5.2 A working polynomial mapping reduction
 
-[Rust](../src/ch05.rs) and [Python](../python/ch05.py) encode **graph 3-coloring into CNF-SAT**. Introduce Boolean variable \`x_(v,c)\` for vertex \`v\` and color \`c\`. Enforce one or more colors per vertex, no two colors simultaneously, and different colors on each edge. Then
-\`\`\`text
+[Rust](../src/ch05.rs) and [Python](../python/ch05.py) encode **graph 3-coloring into CNF-SAT**. Introduce Boolean variable `x_(v,c)` for vertex `v` and color `c`. Enforce one or more colors per vertex, no two colors simultaneously, and different colors on each edge. Then
+```text
 graph has a proper 3-coloring  <=>  generated formula is satisfiable
-\`\`\`
-The formula has \`3|V|\` variables and \`O(|V|+|E|)\` clauses. This is a **polynomial-time reduction**. The accompanying SAT solver checks every assignment, however, and is **exponential**—the reducer's efficiency does not make SAT easy.
+```
+The formula has `3|V|` variables and `O(|V|+|E|)` clauses. This is a **polynomial-time reduction**. The accompanying SAT solver checks every assignment, however, and is **exponential**—the reducer's efficiency does not make SAT easy.
 
 ## 5.3 Rice's theorem: edition 2 selected-problem material
 

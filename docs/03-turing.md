@@ -6,11 +6,11 @@
 
 A Turing machine has finite control, a tape alphabet with blank, a tape head, and transitions that read, write and move. Standard versions halt by entering designated accepting or rejecting states; a transition may also run forever. A *recognizer* need only halt on accepted inputs; a *decider* must halt on **every** input with the correct yes/no result.
 
-The [Rust](../src/ch03.rs) and [Python](../python/ch03.py) programs simulate one fixed, simple machine: on unary input \`111\`, scan right to blank, write \`1\`, accept, yielding \`1111\`. Invalid characters reject. A supplied step **budget** causes \`Timeout\` when insufficient. Timeout is not evidence that a machine will never halt.
+The [Rust](../src/ch03.rs) and [Python](../python/ch03.py) programs simulate one fixed, simple machine: on unary input `111`, scan right to blank, write `1`, accept, yielding `1111`. Invalid characters reject. A supplied step **budget** causes `Timeout` when insufficient. Timeout is not evidence that a machine will never halt.
 
 ### Invariants and cost
 
-Before each step of this specific machine, all scanned tape cells contain \`1\`; the head points to the first not-yet-scanned position. On an input of length \`n\`, acceptance takes \`n+1\` transitions. A general simulator should represent the finite nonblank region sparsely, retain state and head index, and check for explicit halting; the toy machine does not try to be such a universal simulator.
+Before each step of this specific machine, all scanned tape cells contain `1`; the head points to the first not-yet-scanned position. On an input of length `n`, acceptance takes `n+1` transitions. A general simulator should represent the finite nonblank region sparsely, retain state and head index, and check for explicit halting; the toy machine does not try to be such a universal simulator.
 
 ## 3.2 Changes of computational model
 

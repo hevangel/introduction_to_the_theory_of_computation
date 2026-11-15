@@ -25,29 +25,29 @@
 ## Run everything
 
 Rust stable (no dependencies):
-\`\`\`sh
+```sh
 cargo test
-\`\`\`
+```
 
 Python 3.10+ (standard library only):
-\`\`\`sh
+```sh
 python -m unittest discover -s tests -v
-\`\`\`
+```
 
 For example, try the same concept in both languages:
 
-\`\`\`python
+```python
 from python.ch02 import balanced_parentheses, anbn
 assert balanced_parentheses("(()())")
 assert anbn("aaabbb")
-\`\`\`
+```
 
 Rust library usage (inside the crate or a Rust integration test):
 
-\`\`\`rust
+```rust
 assert!(theory::ch02::balanced_parentheses("(()())"));
 assert!(theory::ch02::anbn("aaabbb"));
-\`\`\`
+```
 
 ## How to study an example
 

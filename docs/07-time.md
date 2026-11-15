@@ -4,13 +4,13 @@
 
 ## 7.1 Measuring computation
 
-State the input size \`n\`, machine model and worst-case step count. \`O(f(n))\` means an eventual upper bound up to a constant; \`o(f(n))\` means a strictly smaller asymptotic growth rate. Polynomial changes between reasonable deterministic computation models motivate using polynomial time as a robustness class, but model choice still matters for exact bounds.
+State the input size `n`, machine model and worst-case step count. `O(f(n))` means an eventual upper bound up to a constant; `o(f(n))` means a strictly smaller asymptotic growth rate. Polynomial changes between reasonable deterministic computation models motivate using polynomial time as a robustness class, but model choice still matters for exact bounds.
 
 ## 7.2 P and NP
 
 **P**: languages decidable in deterministic polynomial time. **NP**: languages with polynomial-length certificates verifiable deterministically in polynomial time (equivalently, accepted in nondeterministic polynomial time). Verification is **not** the same as searching for a certificate.
 
-[Python](../python/ch07.py) and [Rust](../src/ch07.rs) check a proposed vertex cover in linear time in input representation, then find a minimum cover via exhaustive subsets. They also implement nonnegative subset sum dynamic programming: \`O(n·target)\`, which is **pseudo-polynomial** when target is represented in binary, not polynomial in the input bit length. This is a useful cautionary example.
+[Python](../python/ch07.py) and [Rust](../src/ch07.rs) check a proposed vertex cover in linear time in input representation, then find a minimum cover via exhaustive subsets. They also implement nonnegative subset sum dynamic programming: `O(n·target)`, which is **pseudo-polynomial** when target is represented in binary, not polynomial in the input bit length. This is a useful cautionary example.
 
 ## 7.3 NP-completeness and Cook–Levin
 
@@ -25,6 +25,6 @@ The fact that we don't know polynomial algorithms for NP-complete problems does 
 ## Checkpoints
 
 - Exhibit a certificate for a particular vertex-cover instance.
-- Compare \`O(n·target)\` with input bits for target \`2^k\`.
+- Compare `O(n·target)` with input bits for target `2^k`.
 - State exactly what must be proved for NP-completeness.
 - Build the 3-coloring reduction in [chapter 5](05-reductions.md) and assess encoding size.

@@ -10,11 +10,11 @@ A proof must account for universal-simulation overhead, padding and constructibi
 
 ## 9.2 Relativization and its limits
 
-Give a Turing machine an oracle \`A\`; define \`P^A\` and \`NP^A\`. There are oracles relative to which P and NP are equal, and others relative to which they are unequal. Therefore a proof technique that relativizes in every oracle world cannot by itself resolve P vs NP. This is a **barrier for a class of proof methods**, not a result that P vs NP is meaningless.
+Give a Turing machine an oracle `A`; define `P^A` and `NP^A`. There are oracles relative to which P and NP are equal, and others relative to which they are unequal. Therefore a proof technique that relativizes in every oracle world cannot by itself resolve P vs NP. This is a **barrier for a class of proof methods**, not a result that P vs NP is meaningless.
 
 ## 9.3 Circuit complexity
 
-A Boolean circuit is a finite acyclic network of gates computing a fixed input-length function. Circuit *families* specify one network per input length. There are \`2^(2^n)\` Boolean functions of \`n\` inputs but far fewer circuits of very small size; counting establishes that *some* functions need large circuits. Producing explicit super-polynomial lower bounds for general circuits is vastly harder.
+A Boolean circuit is a finite acyclic network of gates computing a fixed input-length function. Circuit *families* specify one network per input length. There are `2^(2^n)` Boolean functions of `n` inputs but far fewer circuits of very small size; counting establishes that *some* functions need large circuits. Producing explicit super-polynomial lower bounds for general circuits is vastly harder.
 
 The [Rust](../src/ch09.rs) and [Python](../python/ch09.py) functions count Boolean functions for tiny arities and list a two-input XOR truth table. The count is only **intuition**. It is not an explicit lower bound nor proof of any unresolved complexity separation. Circuit size, depth, uniformity and fan-in are separate metrics.
 
