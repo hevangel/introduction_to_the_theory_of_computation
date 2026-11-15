@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Original Rust and Python companion to all three editions of Sipser's Theory of Computation">
+<title>Theory of Computation | Rust + Python | Editions 1–3</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:light dark}
+body{max-width:960px;margin:0 auto;padding:2rem 1.2rem;line-height:1.6}
+header{border-bottom:2px solid #777;padding-bottom:1rem}
+h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.2;margin-bottom:.3rem}
+.subtitle{font-size:1.15rem}
+table{border-collapse:collapse;width:100%}
+th,td{border-bottom:1px solid #8886;padding:.7rem .5rem;text-align:left;vertical-align:top}
+a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+code{background:#8882;border-radius:4px;padding:.1rem .3rem}
+.pill{display:inline-block;border:1px solid currentColor;border-radius:99px;padding:.15rem .7rem;font-size:.85rem;margin-right:.3rem}
+nav a{margin-right:1rem}
+@media(max-width:600px){th:nth-child(2),td:nth-child(2){display:none}}
+</style>
+</head>
+<body>
+<header>
+<span class="pill">Three editions</span><span class="pill">Rust</span><span class="pill">Python</span>
+<h1>Theory of Computation</h1>
+<p class="subtitle">An original executable companion to Michael Sipser's <em>Introduction to the Theory of Computation</em> — editions 1, 2 and 3.</p>
+<nav><a href="README.md">Start here</a><a href="docs/edition-map.md">Edition changes</a><a href="https://github.com/hevangel/introduction_to_the_theory_of_computation">Repository</a></nav>
+</header>
+<main>
+<h2>Study the full chapter map</h2>
+<table><thead><tr><th>Chapter</th><th>Focus</th><th>Read original lesson</th></tr></thead><tbody>
+<tr><td>0</td><td>Mathematics and proof</td><td><a href="docs/00-foundations.md">Foundations</a></td></tr>
+<tr><td>1</td><td>Finite automata, NFA, regex, Myhill–Nerode</td><td><a href="docs/01-regular.md">Regular languages</a></td></tr>
+<tr><td>2</td><td>CFG, PDA, CYK, deterministic CFL, LR(k)</td><td><a href="docs/02-context-free.md">Context-free languages</a></td></tr>
+<tr><td>3</td><td>Turing machine variants and models</td><td><a href="docs/03-turing.md">Church–Turing</a></td></tr>
+<tr><td>4</td><td>Decidability and diagonalization</td><td><a href="docs/04-decidability.md">Decidability</a></td></tr>
+<tr><td>5</td><td>Mapping reductions, PCP, Rice</td><td><a href="docs/05-reductions.md">Reducibility</a></td></tr>
+<tr><td>6</td><td>Fixed points, logic, oracles, information</td><td><a href="docs/06-advanced-computability.md">Advanced computability</a></td></tr>
+<tr><td>7</td><td>P, NP, Cook–Levin, NP completeness</td><td><a href="docs/07-time.md">Time complexity</a></td></tr>
+<tr><td>8</td><td>PSPACE, Savitch, L/NL</td><td><a href="docs/08-space.md">Space complexity</a></td></tr>
+<tr><td>9</td><td>Hierarchy, oracle barriers, circuits</td><td><a href="docs/09-intractability.md">Intractability</a></td></tr>
+<tr><td>10</td><td>Approximation, BPP, PH, IP, NC, cryptography</td><td><a href="docs/10-advanced-complexity.md">Advanced complexity</a></td></tr>
+</tbody></table>
+<h2>Edition changes worth remembering</h2>
+<p><strong>2nd edition:</strong> selected solutions, additional problems, Myhill–Nerode and Rice's theorem in solved material, repaired primality analysis.</p>
+<p><strong>3rd edition:</strong> major new section 2.4 on deterministic context-free languages, DPDAs, deterministic grammars, and LR(k) parsing.</p>
+<p><strong>Preserved:</strong> all major chapter topics remain in scope. <a href="docs/edition-map.md">Audit the differences and limitations</a>.</p>
+<h2>Run the examples</h2><p><code>cargo test</code> or <code>python -m unittest discover -s tests -v</code>. All examples are intentionally small and independently authored.</p>
+</main><footer><p>Independent educational material, not endorsed by the publisher. Read the edition map for references and what remains unimplemented.</p></footer>
+</body></html>

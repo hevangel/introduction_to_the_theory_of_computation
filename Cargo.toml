@@ -1,0 +1,12 @@
+[package]
+name = "sipser_three_editions_companion"
+version = "0.1.0"
+edition = "2021"
+description = "Original computational theory exercises in Rust"
+license = "MIT"
+
+[lib]
+name = "theory"
+path = "src/lib.rs"
+
+[dependencies]
