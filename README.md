@@ -1,69 +1,74 @@
-# Theory of Computation — Rust + Python, all three Sipser editions
+# Theory of Computation — Exam-Ready Study Notes + Rust & Python (Sipser Editions 1–3)
 
-**An original, open educational companion** to Michael Sipser's *Introduction to the Theory of Computation* (1st, 2nd, and 3rd editions). This repository **does not reproduce the textbook, its diagrams, or its exercises and solutions**. It follows the union of the documented topic outlines, gives its own explanations and thought experiments, and pairs selected ideas with small implementations in **both Rust and Python**.
+> **Live Interactive Study Portal (GitHub Pages):**  
+> **https://hevangel.github.io/introduction_to_the_theory_of_computation/**
 
-> **What this is / isn't:** All 11 chapter *topic areas* are mapped and explained; executable examples illuminate selected algorithms. This is not a line-by-line reconstruction, a complete proof of every textbook theorem, or a claim that running code can establish undecidability or complexity lower bounds. Sections without a faithful executable analogue are explained mathematically.
+**An original, open educational companion and standalone final-exam study guide** to Michael Sipser's *Introduction to the Theory of Computation* (1st, 2nd, and 3rd editions). Designed for undergraduate computer science students taking a Theory of Computation course, each chapter provides formal definitions, plain-English intuition, step-by-step proof blueprints, worked examples, common exam pitfalls, and practice exam questions — paired with runnable, tested implementations in **both Rust and Python**.
 
-## Read in order
+This repository **does not reproduce the textbook, its diagrams, or its exercises and solutions**. Every explanation, proof outline, practice question, and code module is independently authored.
 
-| Book chapter | What you learn | Original lesson | Rust | Python |
-|---|---|---|---|---|
-| 0 | Proofs, sets, languages, graphs | [Introduction](docs/00-foundations.md) | [ch00.rs](src/ch00.rs) | [ch00.py](python/ch00.py) |
-| 1 | DFA, NFA, regex, pumping, Myhill–Nerode | [Regular languages](docs/01-regular.md) | [ch01.rs](src/ch01.rs) | [ch01.py](python/ch01.py) |
-| 2 | CFG, PDA, CYK, **DPDA / LR parsing (3rd edition)** | [Context-free](docs/02-context-free.md) | [ch02.rs](src/ch02.rs) | [ch02.py](python/ch02.py) |
-| 3 | Turing machines, Church–Turing thesis | [Turing machines](docs/03-turing.md) | [ch03.rs](src/ch03.rs) | [ch03.py](python/ch03.py) |
-| 4 | Decidability, diagonalization, HALT | [Decidability](docs/04-decidability.md) | [ch04.rs](src/ch04.rs) | [ch04.py](python/ch04.py) |
-| 5 | Computation histories, mapping reductions, **Rice's theorem** | [Reducibility](docs/05-reductions.md) | [ch05.rs](src/ch05.rs) | [ch05.py](python/ch05.py) |
-| 6 | Self-reference, logic, Turing reductions, information | [Advanced computability](docs/06-advanced-computability.md) | [ch06.rs](src/ch06.rs) | [ch06.py](python/ch06.py) |
-| 7 | P, NP, Cook–Levin, NP-completeness | [Time](docs/07-time.md) | [ch07.rs](src/ch07.rs) | [ch07.py](python/ch07.py) |
-| 8 | PSPACE, Savitch, NL/coNL | [Space](docs/08-space.md) | [ch08.rs](src/ch08.rs) | [ch08.py](python/ch08.py) |
-| 9 | Hierarchies, relativization, circuit complexity | [Intractability](docs/09-intractability.md) | [ch09.rs](src/ch09.rs) | [ch09.py](python/ch09.py) |
-| 10 | Approximation, BPP, PH, IP, NC, crypto | [Advanced complexity](docs/10-advanced-complexity.md) | [ch10.rs](src/ch10.rs) | [ch10.py](python/ch10.py) |
+## Study Notes & Code by Chapter
 
-**Start with the [edition change and retention matrix](docs/edition-map.md).** It records verified additions and explains why material appearing only in solved problems must not be skipped. No major chapter was confirmed deleted across the three published editions; undocumented fine-grained removals are explicitly **not** inferred from a missing headline.
+| Ch | Topics Covered (1st, 2nd & 3rd Editions) | Study Notes | Rust | Python |
+|---:|---|---|---|---|
+| 0 | Sets, relations, equivalence classes, graphs, proof techniques, diagonalization | [00 — Foundations](docs/00-foundations.md) | [ch00.rs](src/ch00.rs) | [ch00.py](python/ch00.py) |
+| 1 | DFA, ε-NFA, subset & product constructions, Thompson regex, pumping lemma, **Myhill–Nerode minimization (2e)** | [01 — Regular Languages](docs/01-regular.md) | [ch01.rs](src/ch01.rs) | [ch01.py](python/ch01.py) |
+| 2 | CFG, CFG→CNF, CYK, PDA, CFL pumping, **DPDA, DCFL, DCFG & canonical LR(1) parser generator with conflict diagnostics (3e §2.4)** | [02 — Context-Free Languages](docs/02-context-free.md) | [ch02.rs](src/ch02.rs) | [ch02.py](python/ch02.py) |
+| 3 | Single-tape TM ($0^{2^n}$), multitape TM ($w\#w$), NTM BFS simulation, enumerators, Church–Turing thesis | [03 — Church–Turing Thesis](docs/03-turing.md) | [ch03.rs](src/ch03.rs) | [ch03.py](python/ch03.py) |
+| 4 | Deciders ($A_{\text{DFA}}, E_{\text{DFA}}, EQ_{\text{DFA}}, A_{\text{CFG}}, E_{\text{CFG}}$), diagonalization, $A_{\text{TM}}$, co-recognizability | [04 — Decidability](docs/04-decidability.md) | [ch04.rs](src/ch04.rs) | [ch04.py](python/ch04.py) |
+| 5 | Standard & computation-history reductions, $A_{\text{LBA}}$, PCP, mapping reductions ($\le_m$), **Rice's theorem (2e)** | [05 — Reducibility](docs/05-reductions.md) | [ch05.rs](src/ch05.rs) | [ch05.py](python/ch05.py) |
+| 6 | Recursion theorem (`SELF`), $\text{Th}(\mathbb{N},+)$ vs $\text{Th}(\mathbb{N},+,\times)$, Gödel incompleteness, oracles, Kolmogorov complexity | [06 — Advanced Computability](docs/06-advanced-computability.md) | [ch06.rs](src/ch06.rs) | [ch06.py](python/ch06.py) |
+| 7 | P (2-SAT via Tarjan SCC), NP verifiers, Cook–Levin tableau, NP-completeness reductions (`3SAT → CLIQUE → VC`, `3SAT → SUBSET-SUM`) | [07 — Time Complexity](docs/07-time.md) | [ch07.rs](src/ch07.rs) | [ch07.py](python/ch07.py) |
+| 8 | Savitch's theorem (`CAN-YIELD`), PSPACE & `TQBF`, L/NL, **Immerman–Szelepcsényi ($\text{NL} = \text{coNL}$)** | [08 — Space Complexity](docs/08-space.md) | [ch08.rs](src/ch08.rs) | [ch08.py](python/ch08.py) |
+| 9 | Space/Time Hierarchy theorems, Relativization (Baker–Gill–Solovay), Boolean circuits & Shannon counting | [09 — Intractability](docs/09-intractability.md) | [ch09.rs](src/ch09.rs) | [ch09.py](python/ch09.py) |
+| 10 | 2-approx Vertex Cover, BPP & **repaired Miller–Rabin primality (2e)**, ROBPs, PH, IP (`GNI`), NC (`parallel_prefix_sum`), RSA | [10 — Advanced Complexity](docs/10-advanced-complexity.md) | [ch10.rs](src/ch10.rs) | [ch10.py](python/ch10.py) |
 
-## Run everything
+**Edition audits:** See [docs/edition-map.md](docs/edition-map.md) and [review/edition-coverage.md](review/edition-coverage.md) for the verified 1st/2nd/3rd edition change matrix and implementation checklist.
 
-Rust stable (no dependencies):
+## Run All Tests (Rust + Python)
+
+**Rust** (stable toolchain, zero external crate dependencies):
 ```sh
-cargo test
+cargo test --all-targets
 ```
 
-Python 3.10+ (standard library only):
+**Python** (Python 3.10+, standard library only):
 ```sh
-python -m unittest discover -s tests -v
+python3 -m unittest discover -s tests -v
 ```
 
-For example, try the same concept in both languages:
+### Quick Example in Both Languages
 
+**Python:**
 ```python
-from python.ch02 import balanced_parentheses, anbn
-assert balanced_parentheses("(()())")
-assert anbn("aaabbb")
+from python.ch01 import regex_to_nfa
+from python.ch02 import Cfg, Production, Lr1Parser, var, term
+
+min_dfa = regex_to_nfa("(0|1)*01(0|1)*").to_dfa().minimize()
+assert min_dfa.num_states == 3  # Myhill–Nerode minimal DFA
+assert min_dfa.accepts("11010")
 ```
 
-Rust library usage (inside the crate or a Rust integration test):
-
+**Rust:**
 ```rust
-assert!(theory::ch02::balanced_parentheses("(()())"));
-assert!(theory::ch02::anbn("aaabbb"));
+use theory::ch01::regex_to_nfa;
+
+let min_dfa = regex_to_nfa("(0|1)*01(0|1)*").unwrap().to_dfa().minimize();
+assert_eq!(min_dfa.num_states, 3); // Myhill–Nerode minimal DFA
+assert!(min_dfa.accepts("11010"));
 ```
 
-## How to study an example
+## How to Study for Your Final Exam Using This Repo
 
-1. State the **mathematical language or problem**, including its alphabet, inputs and outputs.
-2. Predict the result for positive, negative and boundary cases.
-3. Run both implementations; identify the **invariant** or certificate.
-4. Prove correctness independently. A finite test suite is never a general proof.
-5. Analyze asymptotic resource use on the specified computational model.
-6. Read the **edition-specific note** before moving on.
+1. **Read the chapter notes** on the [GitHub Pages site](https://hevangel.github.io/introduction_to_the_theory_of_computation/) or directly in `docs/`.
+2. **Memorize the Proof Blueprints** (Pumping Lemma adversary game, Subset Construction, CNF conversion, $A_{\text{TM}}$ diagonalization, standard reductions, Rice's Theorem, Cook–Levin tableau, Savitch's `CAN-YIELD`, Immerman–Szelepcsényi inductive counting).
+3. **Run and trace the Rust/Python implementations** to build concrete intuition for each construction.
+4. **Attempt the Practice Exam Questions** at the end of every chapter before reading the solution outlines.
 
-## Coverage honesty
+## Coverage Honesty
 
-Examples are small, runnable **illustrations**, not production recognizers or solvers. The machine in chapter 3 is a single fixed TM; its timeout does **not** solve the halting problem. The chapter 6 compressor is **not** Kolmogorov complexity. Counting Boolean functions in chapter 9 is **not** a circuit lower-bound proof. The chapter 10 random sampler is **not** a BPP algorithm for an arbitrary decision problem. LR(k) parsing theory is taught in the chapter 2 notes, but a full canonical LR(k) parser generator is not yet implemented.
+Executable code illuminates algorithms, reductions, and finite models; running code can never prove undecidability or complexity lower bounds. Bounded simulators (such as `TuringMachine::run` with a step budget and `bounded_pcp`) explicitly bound execution and do **not** decide undecidable problems.
 
-## Source and publication notes
+## Source and Publication Notes
 
-Original editions: first (1997, ISBN 0-534-94728-X), second (2006, ISBN 0-534-95097-3), third (released 2012; ©2013, ISBN 978-1-13318-779-0). The 1996 **preliminary edition** is separate and is **not** counted as a fourth published edition here. Source citations and caveats are in [docs/edition-map.md](docs/edition-map.md).
-
-Independent work inspired by the topics of the textbook, not affiliated with the author or publisher. Repository license governs this companion's original material only.
+Original editions: first (1997, ISBN 0-534-94728-X), second (2006, ISBN 0-534-95097-3), third (released 2012; ©2013, ISBN 978-1-13318-779-0). Independent educational companion, not affiliated with the author or publisher. Repository MIT license governs this companion's original material only.

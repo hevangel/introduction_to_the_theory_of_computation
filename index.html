@@ -1,50 +1,360 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Original Rust and Python companion to all three editions of Sipser's Theory of Computation">
-<title>Theory of Computation | Rust + Python | Editions 1–3</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Undergraduate exam-ready study notes + Rust & Python implementations for all three editions of Sipser's Introduction to the Theory of Computation">
+<title>Theory of Computation — Study Notes + Rust &amp; Python (Sipser 1e–3e)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <style>
-:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:light dark}
-body{max-width:960px;margin:0 auto;padding:2rem 1.2rem;line-height:1.6}
-header{border-bottom:2px solid #777;padding-bottom:1rem}
-h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.2;margin-bottom:.3rem}
-.subtitle{font-size:1.15rem}
-table{border-collapse:collapse;width:100%}
-th,td{border-bottom:1px solid #8886;padding:.7rem .5rem;text-align:left;vertical-align:top}
-a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-code{background:#8882;border-radius:4px;padding:.1rem .3rem}
-.pill{display:inline-block;border:1px solid currentColor;border-radius:99px;padding:.15rem .7rem;font-size:.85rem;margin-right:.3rem}
-nav a{margin-right:1rem}
-@media(max-width:600px){th:nth-child(2),td:nth-child(2){display:none}}
+:root {
+  --bg: #ffffff;
+  --surface: #f6f8fa;
+  --border: #d0d7de;
+  --text: #1f2328;
+  --muted: #59636e;
+  --accent: #0969da;
+  --code-bg: #eff1f3;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --code-bg: #21262d;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  min-height: 100vh;
+}
+aside {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 1.25rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+.brand-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.nav-section {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 1rem 0 0.4rem;
+  font-weight: 600;
+}
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.nav-list li { margin: 0.15rem 0; }
+.nav-list button, .nav-list a {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text);
+  padding: 0.42rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav-list button:hover, .nav-list a:hover {
+  background: var(--code-bg);
+}
+.nav-list button.active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+main {
+  max-width: 920px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 2.2rem 4rem;
+}
+.pill {
+  display: inline-block;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 99px;
+  padding: 0.12rem 0.65rem;
+  font-size: 0.8rem;
+  margin-right: 0.35rem;
+  color: var(--muted);
+}
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+.toolbar a {
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  background: var(--surface);
+}
+.toolbar a:hover { text-decoration: underline; }
+article h1 { font-size: 2rem; line-height: 1.25; margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+article h2 { font-size: 1.4rem; margin-top: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; }
+article h3 { font-size: 1.12rem; margin-top: 1.4rem; }
+article a { color: var(--accent); }
+article blockquote {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--accent);
+  background: var(--surface);
+  border-radius: 0 6px 6px 0;
+}
+article pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+article code {
+  background: var(--code-bg);
+  padding: 0.12rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+article pre code { background: none; padding: 0; }
+article table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+  font-size: 0.93rem;
+}
+article th, article td {
+  border: 1px solid var(--border);
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+article th { background: var(--surface); }
+.chapter-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+.card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 0.95rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.card:hover { border-color: var(--accent); }
+.card-num { font-size: 0.78rem; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+.card-title { font-weight: 600; margin: 0.2rem 0 0.35rem; }
+.card-desc { font-size: 0.86rem; color: var(--muted); margin: 0; }
+.pager {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.pager button {
+  background: var(--surface);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.pager button:hover { border-color: var(--accent); }
+@media (max-width: 820px) {
+  .layout { grid-template-columns: 1fr; }
+  aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  main { padding: 1.25rem 1rem 3rem; }
+}
 </style>
 </head>
 <body>
-<header>
-<span class="pill">Three editions</span><span class="pill">Rust</span><span class="pill">Python</span>
-<h1>Theory of Computation</h1>
-<p class="subtitle">An original executable companion to Michael Sipser's <em>Introduction to the Theory of Computation</em> — editions 1, 2 and 3.</p>
-<nav><a href="README.md">Start here</a><a href="docs/edition-map.md">Edition changes</a><a href="https://github.com/hevangel/introduction_to_the_theory_of_computation">Repository</a></nav>
-</header>
-<main>
-<h2>Study the full chapter map</h2>
-<table><thead><tr><th>Chapter</th><th>Focus</th><th>Read original lesson</th></tr></thead><tbody>
-<tr><td>0</td><td>Mathematics and proof</td><td><a href="docs/00-foundations.md">Foundations</a></td></tr>
-<tr><td>1</td><td>Finite automata, NFA, regex, Myhill–Nerode</td><td><a href="docs/01-regular.md">Regular languages</a></td></tr>
-<tr><td>2</td><td>CFG, PDA, CYK, deterministic CFL, LR(k)</td><td><a href="docs/02-context-free.md">Context-free languages</a></td></tr>
-<tr><td>3</td><td>Turing machine variants and models</td><td><a href="docs/03-turing.md">Church–Turing</a></td></tr>
-<tr><td>4</td><td>Decidability and diagonalization</td><td><a href="docs/04-decidability.md">Decidability</a></td></tr>
-<tr><td>5</td><td>Mapping reductions, PCP, Rice</td><td><a href="docs/05-reductions.md">Reducibility</a></td></tr>
-<tr><td>6</td><td>Fixed points, logic, oracles, information</td><td><a href="docs/06-advanced-computability.md">Advanced computability</a></td></tr>
-<tr><td>7</td><td>P, NP, Cook–Levin, NP completeness</td><td><a href="docs/07-time.md">Time complexity</a></td></tr>
-<tr><td>8</td><td>PSPACE, Savitch, L/NL</td><td><a href="docs/08-space.md">Space complexity</a></td></tr>
-<tr><td>9</td><td>Hierarchy, oracle barriers, circuits</td><td><a href="docs/09-intractability.md">Intractability</a></td></tr>
-<tr><td>10</td><td>Approximation, BPP, PH, IP, NC, cryptography</td><td><a href="docs/10-advanced-complexity.md">Advanced complexity</a></td></tr>
-</tbody></table>
-<h2>Edition changes worth remembering</h2>
-<p><strong>2nd edition:</strong> selected solutions, additional problems, Myhill–Nerode and Rice's theorem in solved material, repaired primality analysis.</p>
-<p><strong>3rd edition:</strong> major new section 2.4 on deterministic context-free languages, DPDAs, deterministic grammars, and LR(k) parsing.</p>
-<p><strong>Preserved:</strong> all major chapter topics remain in scope. <a href="docs/edition-map.md">Audit the differences and limitations</a>.</p>
-<h2>Run the examples</h2><p><code>cargo test</code> or <code>python -m unittest discover -s tests -v</code>. All examples are intentionally small and independently authored.</p>
-</main><footer><p>Independent educational material, not endorsed by the publisher. Read the edition map for references and what remains unimplemented.</p></footer>
-</body></html>
+<div class="layout">
+  <aside>
+    <div class="brand">Theory of Computation</div>
+    <div class="brand-sub">Sipser 1e–3e · Exam Study Notes + Rust &amp; Python</div>
+    <div class="nav-section">Overview</div>
+    <ul class="nav-list">
+      <li><button id="nav-home" class="active" onclick="showHome()">Course Home</button></li>
+      <li><button id="nav-edition" onclick="loadDoc('docs/edition-map.md', 'Edition Map (1e–3e)', null)">Edition Map (1e–3e)</button></li>
+      <li><button id="nav-coverage" onclick="loadDoc('review/edition-coverage.md', 'Edition Coverage Audit', null)">Coverage Audit</button></li>
+    </ul>
+    <div class="nav-section">Chapters (0–10)</div>
+    <ul class="nav-list" id="chapter-nav"></ul>
+    <div class="nav-section">Repository</div>
+    <ul class="nav-list">
+      <li><a href="https://github.com/hevangel/introduction_to_the_theory_of_computation" target="_blank" rel="noopener">GitHub Repository ↗</a></li>
+    </ul>
+  </aside>
+  <main id="content"></main>
+</div>
+
+<script>
+const REPO = "https://github.com/hevangel/introduction_to_the_theory_of_computation/blob/main";
+const CHAPTERS = [
+  { id: "00", file: "docs/00-foundations.md", rust: "src/ch00.rs", py: "python/ch00.py", title: "Ch 0: Foundations", desc: "Sets, relations, equivalence classes, graphs, proof templates, diagonalization" },
+  { id: "01", file: "docs/01-regular.md", rust: "src/ch01.rs", py: "python/ch01.py", title: "Ch 1: Regular Languages", desc: "DFA, ε-NFA, subset & product constructions, Thompson regex, pumping, Myhill–Nerode (2e)" },
+  { id: "02", file: "docs/02-context-free.md", rust: "src/ch02.rs", py: "python/ch02.py", title: "Ch 2: Context-Free & LR(1)", desc: "CFG, CNF, CYK, PDA, CFL pumping, DPDA, DCFL, canonical LR(1) parser (3e §2.4)" },
+  { id: "03", file: "docs/03-turing.md", rust: "src/ch03.rs", py: "python/ch03.py", title: "Ch 3: Church–Turing Thesis", desc: "Single-tape & multitape TMs, NTM BFS simulation, enumerators, decidable vs recognizable" },
+  { id: "04", file: "docs/04-decidability.md", rust: "src/ch04.rs", py: "python/ch04.py", title: "Ch 4: Decidability", desc: "A_DFA, E_DFA, EQ_DFA, A_CFG, E_CFG, diagonalization, A_TM, co-recognizability" },
+  { id: "05", file: "docs/05-reductions.md", rust: "src/ch05.rs", py: "python/ch05.py", title: "Ch 5: Reducibility & Rice", desc: "HALT_TM, E_TM, LBA, PCP, mapping reductions, Rice's Theorem (2e)" },
+  { id: "06", file: "docs/06-advanced-computability.md", rust: "src/ch06.rs", py: "python/ch06.py", title: "Ch 6: Advanced Computability", desc: "Recursion theorem (SELF), Presburger vs Peano arithmetic, Gödel, oracles, Kolmogorov" },
+  { id: "07", file: "docs/07-time.md", rust: "src/ch07.rs", py: "python/ch07.py", title: "Ch 7: Time Complexity", desc: "P (2-SAT), NP verifiers, Cook–Levin tableau, 3SAT→CLIQUE→VC & SUBSET-SUM" },
+  { id: "08", file: "docs/08-space.md", rust: "src/ch08.rs", py: "python/ch08.py", title: "Ch 8: Space Complexity", desc: "Savitch's CAN-YIELD, PSPACE & TQBF, L/NL, Immerman–Szelepcsényi (NL = coNL)" },
+  { id: "09", file: "docs/09-intractability.md", rust: "src/ch09.rs", py: "python/ch09.py", title: "Ch 9: Intractability", desc: "Space & Time Hierarchy theorems, Baker–Gill–Solovay relativization, Boolean circuits" },
+  { id: "10", file: "docs/10-advanced-complexity.md", rust: "src/ch10.rs", py: "python/ch10.py", title: "Ch 10: Advanced Complexity", desc: "2-approx VC, Miller–Rabin (2e repair), ROBP, PH, IP=PSPACE, NC, RSA" }
+];
+
+const navEl = document.getElementById("chapter-nav");
+CHAPTERS.forEach((ch, idx) => {
+  const li = document.createElement("li");
+  const btn = document.createElement("button");
+  btn.id = `nav-ch-${ch.id}`;
+  btn.textContent = ch.title;
+  btn.onclick = () => loadChapter(idx);
+  li.appendChild(btn);
+  navEl.appendChild(li);
+});
+
+function setActive(id) {
+  document.querySelectorAll("aside button").forEach(b => b.classList.remove("active"));
+  const el = document.getElementById(id);
+  if (el) el.classList.add("active");
+}
+
+function showHome() {
+  setActive("nav-home");
+  history.replaceState(null, "", "#home");
+  const cards = CHAPTERS.map((ch, idx) => `
+    <div class="card" onclick="loadChapter(${idx})">
+      <div class="card-num">Chapter ${parseInt(ch.id, 10)}</div>
+      <div class="card-title">${ch.title.replace(/^Ch \d+:\s*/, "")}</div>
+      <p class="card-desc">${ch.desc}</p>
+    </div>
+  `).join("");
+  document.getElementById("content").innerHTML = `
+    <article>
+      <div style="margin-bottom:0.75rem">
+        <span class="pill">Sipser Editions 1–3</span>
+        <span class="pill">Exam Study Notes</span>
+        <span class="pill">Rust + Python</span>
+      </div>
+      <h1>Introduction to the Theory of Computation</h1>
+      <p>An open, standalone undergraduate study guide and executable companion covering all 11 chapters of Michael Sipser's <em>Introduction to the Theory of Computation</em> (1st, 2nd, and 3rd editions). Click any chapter below to read the full study notes with formal definitions, proof blueprints, exam pitfalls, and practice questions.</p>
+      <h2>Run the Code Examples</h2>
+      <pre><code>cargo test --all-targets
+python3 -m unittest discover -s tests -v</code></pre>
+      <h2>Chapters</h2>
+      <div class="chapter-cards">${cards}</div>
+    </article>
+  `;
+}
+
+function loadChapter(idx) {
+  const ch = CHAPTERS[idx];
+  setActive(`nav-ch-${ch.id}`);
+  history.replaceState(null, "", `#ch${ch.id}`);
+  loadDoc(ch.file, ch.title, idx);
+}
+
+async function loadDoc(path, title, chIdx) {
+  if (chIdx === null) {
+    setActive(path.includes("edition-map") ? "nav-edition" : "nav-coverage");
+    history.replaceState(null, "", `#${path}`);
+  }
+  const content = document.getElementById("content");
+  content.innerHTML = `<p>Loading <code>${path}</code>...</p>`;
+  try {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const md = await res.text();
+    let toolbar = `<div class="toolbar"><a href="${REPO}/${path}" target="_blank" rel="noopener">View Markdown on GitHub ↗</a>`;
+    if (chIdx !== null) {
+      const ch = CHAPTERS[chIdx];
+      toolbar += `<a href="${REPO}/${ch.rust}" target="_blank" rel="noopener">Rust: ${ch.rust} ↗</a>`;
+      toolbar += `<a href="${REPO}/${ch.py}" target="_blank" rel="noopener">Python: ${ch.py} ↗</a>`;
+    }
+    toolbar += `</div>`;
+
+    const rendered = window.marked ? window.marked.parse(md) : `<pre>${md.replace(/</g, "&lt;")}</pre>`;
+    let pager = "";
+    if (chIdx !== null) {
+      const prevBtn = chIdx > 0 ? `<button onclick="loadChapter(${chIdx - 1})">← ${CHAPTERS[chIdx - 1].title}</button>` : `<span></span>`;
+      const nextBtn = chIdx < CHAPTERS.length - 1 ? `<button onclick="loadChapter(${chIdx + 1})">${CHAPTERS[chIdx + 1].title} →</button>` : `<span></span>`;
+      pager = `<div class="pager">${prevBtn}${nextBtn}</div>`;
+    }
+    content.innerHTML = `${toolbar}<article id="md-body">${rendered}</article>${pager}`;
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.getElementById("md-body"), {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ],
+        throwOnError: false
+      });
+    }
+    window.scrollTo(0, 0);
+  } catch (err) {
+    content.innerHTML = `<article><h1>${title}</h1><p>Could not load <code>${path}</code> (${err.message}). <a href="${REPO}/${path}" target="_blank" rel="noopener">Read on GitHub ↗</a></p></article>`;
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const hash = location.hash.replace(/^#/, "");
+  const m = hash.match(/^ch(\d\d)$/);
+  if (m) {
+    const idx = CHAPTERS.findIndex(c => c.id === m[1]);
+    if (idx >= 0) return loadChapter(idx);
+  }
+  if (hash === "docs/edition-map.md") return loadDoc("docs/edition-map.md", "Edition Map", null);
+  if (hash === "review/edition-coverage.md") return loadDoc("review/edition-coverage.md", "Coverage Audit", null);
+  showHome();
+});
+</script>
+</body>
+</html>
