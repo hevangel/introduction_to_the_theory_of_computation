@@ -52,16 +52,16 @@ Given a CNF grammar $G$ and input $w = w_1 \dots w_n$ ($n \ge 1$):
 
 ### Formal Definition (Sipser Def 2.13)
 A **(Nondeterministic) Pushdown Automaton** is a 6-tuple $P = (Q, \Sigma, \Gamma, \delta, q_0, F)$ where:
-- $\Gamma$ is a finite **stack alphabet** (often includes bottom-of-stack marker $\$$).
+- $\Gamma$ is a finite **stack alphabet** (often includes bottom-of-stack marker `$`).
 - $\delta : Q \times \Sigma_\varepsilon \times \Gamma_\varepsilon \to \mathcal{P}(Q \times \Gamma_\varepsilon)$.
 - Transition $(r, b) \in \delta(q, a, x)$ means: in state $q$, read $a$ (or $\varepsilon$), pop $x$ from stack (or $\varepsilon$), move to state $r$, and push $b$ (or $\varepsilon$).
-- **Acceptance (Sipser convention):** By **accept state** when all input is consumed (stack need not be empty, though using a bottom marker $\$$ lets you test stack emptiness!).
+- **Acceptance (Sipser convention):** By **accept state** when all input is consumed (stack need not be empty, though using a bottom marker `$` lets you test stack emptiness!).
 
 ### Theorem 2.20: A language is Context-Free $\iff$ some PDA recognizes it.
-- **($\Rightarrow$) CFG $\to$ PDA:** Push $\$$ then $S$. In a single main loop state:
+- **($\Rightarrow$) CFG $\to$ PDA:** Push `$` then $S$. In a single main loop state:
   - If top of stack is variable $A$, nondeterministically pop $A$ and push the RHS of some rule $A \to w$ (in reverse so the leftmost symbol is on top).
   - If top of stack is terminal $a$, read $a$ from input and pop $a$.
-  - If top of stack is $\$$, pop $\$$ and move to $q_{\text{accept}}$.
+  - If top of stack is `$`, pop `$` and move to $q_{\text{accept}}$.
 - **($\Leftarrow$) PDA $\to$ CFG:** First normalize PDA to have a single accept state, empty its stack before accepting, and either push *or* pop on every move (not both). Create variable $A_{pq}$ generating all strings taking the PDA from state $p$ (empty stack) to state $q$ (empty stack):
   1. $A_{pp} \to \varepsilon$ for all $p$.
   2. $A_{pq} \to A_{pr} A_{rq}$ for all $p, q, r$ (stack returns to empty at intermediate state $r$).

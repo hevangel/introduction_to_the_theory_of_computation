@@ -574,6 +574,50 @@ function wireInternalLinks(root, currentChId) {
   });
 }
 
+function renderMarkdownWithMath(md) {
+  // 1. Protect fenced code blocks and inline code spans so `$` inside code is untouched.
+  const codeStore = [];
+  let text = md.replace(/```[\s\S]*?```|`[^`\n]+`/g, (match) => {
+    const idx = codeStore.length;
+    codeStore.push(match);
+    return `CODEPLACEHOLDER${idx}END`;
+  });
+
+  // 2. Extract display math ($$...$$) and inline math ($...$, supporting \$ inside)
+  // BEFORE marked.parse() so Markdown never strips backslashes (\{, \}, \#, \;, \$) or eats `_`.
+  const mathStore = [];
+  text = text.replace(/\$\$([\s\S]+?)\$\$/g, (_, expr) => {
+    const idx = mathStore.length;
+    mathStore.push({ expr: expr.trim(), display: true });
+    return `MATHPLACEHOLDER${idx}END`;
+  });
+  text = text.replace(/(?<!\\)\$(?!\$)((?:\\\$|[^$\n])+?)(?<!\\)\$/g, (_, expr) => {
+    const idx = mathStore.length;
+    mathStore.push({ expr, display: false });
+    return `MATHPLACEHOLDER${idx}END`;
+  });
+
+  // 3. Restore code blocks so marked.parse() renders them normally.
+  text = text.replace(/CODEPLACEHOLDER(\d+)END/g, (_, idx) => codeStore[Number(idx)]);
+
+  // 4. Parse Markdown to HTML.
+  let html = window.marked ? window.marked.parse(text) : `<pre>${escapeHtml(text)}</pre>`;
+
+  // 5. Render each math placeholder directly with KaTeX (immune to Markdown/HTML mangling).
+  html = html.replace(/MATHPLACEHOLDER(\d+)END/g, (_, idx) => {
+    const item = mathStore[Number(idx)];
+    if (window.katex && window.katex.renderToString) {
+      return window.katex.renderToString(item.expr, {
+        displayMode: item.display,
+        throwOnError: false,
+      });
+    }
+    return item.display ? `$$${escapeHtml(item.expr)}$$` : `$${escapeHtml(item.expr)}$`;
+  });
+
+  return html;
+}
+
 async function showChapter(chIdx, tab) {
   const ch = CHAPTERS[chIdx];
   setActive(`nav-ch-${ch.id}`);
@@ -585,8 +629,7 @@ async function showChapter(chIdx, tab) {
     let bodyHtml = "";
     if (tab === "notes") {
       const md = await fetchText(ch.file);
-      const rendered = window.marked ? window.marked.parse(md) : `<pre>${escapeHtml(md)}</pre>`;
-      bodyHtml = `<article id="md-body">${rendered}</article>`;
+      bodyHtml = `<article id="md-body">${renderMarkdownWithMath(md)}</article>`;
     } else if (tab === "rust") {
       const code = await fetchText(ch.rust);
       bodyHtml = renderCodePanel(ch.rust, "rust", "Rust", "rust", code);
@@ -609,15 +652,6 @@ async function showChapter(chIdx, tab) {
       const mdBody = document.getElementById("md-body");
       wireInternalLinks(mdBody, ch.id);
       highlightMarkdownCode(mdBody);
-      if (window.renderMathInElement) {
-        window.renderMathInElement(mdBody, {
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "$", right: "$", display: false }
-          ],
-          throwOnError: false
-        });
-      }
     }
     window.scrollTo(0, 0);
   } catch (err) {
@@ -632,26 +666,16 @@ async function showStandaloneDoc(path, title, navId) {
   main.innerHTML = `<p>Loading <code>${path}</code>...</p>`;
   try {
     const md = await fetchText(path);
-    const rendered = window.marked ? window.marked.parse(md) : `<pre>${escapeHtml(md)}</pre>`;
     main.innerHTML = `
       <div class="chapter-header">
         <span class="pill">${title}</span>
         <div class="gh-links"><a href="${REPO}/${path}" target="_blank" rel="noopener">View Markdown on GitHub ↗</a></div>
       </div>
-      <article id="md-body">${rendered}</article>
+      <article id="md-body">${renderMarkdownWithMath(md)}</article>
     `;
     const mdBody = document.getElementById("md-body");
     wireInternalLinks(mdBody, null);
     highlightMarkdownCode(mdBody);
-    if (window.renderMathInElement) {
-      window.renderMathInElement(mdBody, {
-        delimiters: [
-          { left: "$$", right: "$$", display: true },
-          { left: "$", right: "$", display: false }
-        ],
-        throwOnError: false
-      });
-    }
     window.scrollTo(0, 0);
   } catch (err) {
     main.innerHTML = `<article><h1>${title}</h1><p>Could not load <code>${path}</code> (${escapeHtml(err.message)}).</p></article>`;
